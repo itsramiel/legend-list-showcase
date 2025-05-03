@@ -1,16 +1,19 @@
 import * as Crypto from "expo-crypto";
 import {
   Button,
-  FlatList,
   Image,
   ImageSourcePropType,
-  ListRenderItemInfo,
   Text,
   TextInput,
   View,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRef, useState } from "react";
+import {
+  LegendList,
+  LegendListRef,
+  LegendListRenderItemProps,
+} from "@legendapp/list";
 
 type TItem = {
   id: string;
@@ -108,7 +111,7 @@ const data: Array<TItem> = Array(1000)
   });
 
 export default function ScrollToNthItemScreen() {
-  const ref = useRef<FlatList<TItem>>(null);
+  const ref = useRef<LegendListRef>(null);
 
   const onScrollToIndex = (index: number) => {
     ref.current?.scrollToIndex({ index, animated: true });
@@ -117,7 +120,8 @@ export default function ScrollToNthItemScreen() {
   return (
     <View className="flex-1">
       <ItemIndexInput onScrollToIndex={onScrollToIndex} />
-      <FlatList
+      <LegendList
+        recycleItems
         ref={ref}
         className="flex-1"
         data={data}
@@ -155,11 +159,11 @@ function ItemIndexInput({ onScrollToIndex }: ItemIndexInputProps) {
   );
 }
 
-function renderItem(props: ListRenderItemInfo<TItem>) {
+function renderItem(props: LegendListRenderItemProps<TItem>) {
   return <ListItem {...props} />;
 }
 
-function ListItem({ item, index }: ListRenderItemInfo<TItem>) {
+function ListItem({ item, index }: LegendListRenderItemProps<TItem>) {
   return (
     <View className="p-3 flex-row gap-2 bg-white border-b border-b-gray-200">
       <Image source={item.image} className="w-16 h-16 rounded-full" />
