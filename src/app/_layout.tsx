@@ -20,6 +20,12 @@ export default function RootLayout() {
             title: "Performance",
           }}
         />
+        <Stack.Screen
+          name="scroll-to-nth-item"
+          options={{
+            title: "Scroll to Nth Item",
+          }}
+        />
       </Stack>
       <StatusBar style="auto" />
     </>

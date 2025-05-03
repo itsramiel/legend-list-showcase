@@ -7,10 +7,16 @@ type TITem = {
   route: LinkProps["href"];
 };
 
-const examples = Array<TITem>({
-  title: "Performance",
-  route: "/performance",
-});
+const examples = Array<TITem>(
+  {
+    title: "Performance",
+    route: "/performance",
+  },
+  {
+    title: "Scroll to Nth Item",
+    route: "/scroll-to-nth-item",
+  },
+);
 
 export default function ExamplesScreen() {
   return <FlatList data={examples} renderItem={renderItem} />;
