@@ -1,12 +1,6 @@
 import * as Crypto from "expo-crypto";
-import {
-  FlatList,
-  Image,
-  ImageSourcePropType,
-  ListRenderItemInfo,
-  Text,
-  View,
-} from "react-native";
+import { LegendList, LegendListRenderItemProps } from "@legendapp/list";
+import { Image, ImageSourcePropType, Text, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 type TItem = {
@@ -105,14 +99,14 @@ const data: Array<TItem> = Array(1000)
   });
 
 export default function PerformanceScreen() {
-  return <FlatList data={data} renderItem={renderItem} />;
+  return <LegendList recycleItems data={data} renderItem={renderItem} />;
 }
 
-function renderItem(props: ListRenderItemInfo<TItem>) {
+function renderItem(props: LegendListRenderItemProps<TItem>) {
   return <ListItem {...props} />;
 }
 
-function ListItem({ item }: ListRenderItemInfo<TItem>) {
+function ListItem({ item }: LegendListRenderItemProps<TItem>) {
   return (
     <View className="p-3 flex-row gap-2 bg-white border-b border-b-gray-200">
       <Image source={item.image} className="w-16 h-16 rounded-full" />
