@@ -7,6 +7,7 @@ import {
   Text,
   View,
 } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 type TItem = {
   id: string;
@@ -16,6 +17,7 @@ type TItem = {
   post: string;
   image: ImageSourcePropType;
   commentsCount: number;
+  shareCount: number;
   likesCount: number;
 };
 
@@ -26,7 +28,8 @@ const item1 = {
   post: "Just wrapped up a weekend hiking trip and I can't believe how refreshing it was to disconnect for a bit. No screens, no notifications—just nature, fresh air, and a solid group of friends. Sometimes stepping away is exactly what you need to recharge and refocus. Highly recommend it if you're feeling burnt out or stuck in a routine. Fresh air clears more than just your lungs.",
   image: require("@/src/assets/avatar-1.jpg"),
   commentsCount: 10,
-  likesCount: 10,
+  shareCount: 3,
+  likesCount: 7,
 };
 
 const item2 = {
@@ -35,8 +38,9 @@ const item2 = {
   time: "2h",
   post: "I’ve been experimenting with early morning routines and it’s wild how much more I can get done before 9 AM. A bit of journaling, a walk, and no phone until after breakfast—it’s simple but effective. It’s like my brain finally has time to breathe before the day takes over. Still figuring it out, but I’m seeing real improvement in focus and mood.",
   image: require("@/src/assets/avatar-2.jpg"),
-  commentsCount: 20,
-  likesCount: 20,
+  commentsCount: 2,
+  shareCount: 1,
+  likesCount: 3,
 };
 
 const item3 = {
@@ -45,8 +49,9 @@ const item3 = {
   time: "3h",
   post: "Why is it that every time you think you’ve figured something out, life throws another curveball? I guess that’s the whole point—growth doesn’t come from comfort. Still, it’s exhausting. I’m trying to lean into it, take the lesson, and move forward. Some days are easier than others. Just trying to keep showing up.",
   image: require("@/src/assets/avatar-3.jpg"),
-  commentsCount: 30,
-  likesCount: 30,
+  commentsCount: 1,
+  shareCount: 3,
+  likesCount: 2,
 };
 
 const item4 = {
@@ -55,8 +60,9 @@ const item4 = {
   time: "4h",
   post: "Saw the most surreal sunset today—whole sky lit up in these streaks of orange and purple like someone painted it. It stopped me in my tracks. It's easy to forget how insane the natural world is when you're buried in work, but moments like that pull you out and remind you what you're missing. Might make time for a proper photo walk soon.",
   image: require("@/src/assets/avatar-4.jpg"),
-  commentsCount: 40,
-  likesCount: 40,
+  commentsCount: 1,
+  shareCount: 1,
+  likesCount: 1,
 };
 
 const item5 = {
@@ -65,8 +71,9 @@ const item5 = {
   time: "5h",
   post: "I’ve been experimenting with early morning routines and it’s wild how much more I can get done before 9 AM. A bit of journaling, a walk, and no phone until after breakfast—it’s simple but effective. It’s like my brain finally has time to breathe before the day takes over. Still figuring it out, but I’m seeing real improvement in focus and mood.",
   image: require("@/src/assets/avatar-5.jpg"),
-  commentsCount: 50,
-  likesCount: 50,
+  commentsCount: 2,
+  shareCount: 1,
+  likesCount: 2,
 };
 
 function getItem(mod: number) {
@@ -109,12 +116,28 @@ function ListItem({ item }: ListRenderItemInfo<TItem>) {
   return (
     <View className="p-3 flex-row gap-2 bg-white border-b border-b-gray-200">
       <Image source={item.image} className="w-16 h-16 rounded-full" />
-      <View className="flex-1">
-        <View className="flex-row gap-2 items-center">
-          <Text className="font-bold text-lg">{item.name}</Text>
-          <Text className="text-gray-600">{`${item.handle} · ${item.time}`}</Text>
+      <View className="flex-1 gap-3">
+        <View>
+          <View className="flex-row gap-2 items-center">
+            <Text className="font-bold text-lg">{item.name}</Text>
+            <Text className="text-gray-600">{`${item.handle} · ${item.time}`}</Text>
+          </View>
+          <Text>{item.post}</Text>
         </View>
-        <Text>{item.post}</Text>
+        <View className="flex-row gap-9 items-center">
+          <View className="flex-row gap-1 items-center">
+            <Ionicons name="chatbubble-outline" size={16} color={"#6b7280"} />
+            <Text className="text-gray-500 text-lg">{item.commentsCount}</Text>
+          </View>
+          <View className="flex-row gap-1 items-center">
+            <Ionicons name="repeat-sharp" size={16} color={"#6b7280"} />
+            <Text className="text-gray-500 text-lg">{item.shareCount}</Text>
+          </View>
+          <View className="flex-row gap-1 items-center">
+            <Ionicons name="heart-outline" size={16} color={"#6b7280"} />
+            <Text className="text-gray-500 text-lg">{item.likesCount}</Text>
+          </View>
+        </View>
       </View>
     </View>
   );
