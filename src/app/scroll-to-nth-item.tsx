@@ -126,6 +126,7 @@ export default function ScrollToNthItemScreen() {
         className="flex-1"
         data={data}
         renderItem={renderItem}
+        maintainVisibleContentPosition
       />
     </View>
   );
