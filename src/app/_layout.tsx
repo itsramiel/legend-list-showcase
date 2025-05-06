@@ -3,10 +3,11 @@ import "@/global.css";
 import "react-native-reanimated";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 
 export default function RootLayout() {
   return (
-    <>
+    <KeyboardProvider>
       <Stack>
         <Stack.Screen
           name="index"
@@ -26,8 +27,14 @@ export default function RootLayout() {
             title: "Scroll to Nth Item",
           }}
         />
+        <Stack.Screen
+          name="chat-ui"
+          options={{
+            title: "Chat UI",
+          }}
+        />
       </Stack>
       <StatusBar style="auto" />
-    </>
+    </KeyboardProvider>
   );
 }

@@ -16,6 +16,10 @@ const examples = Array<TITem>(
     title: "Scroll to Nth Item",
     route: "/scroll-to-nth-item",
   },
+  {
+    title: "Chat UI",
+    route: "/chat-ui",
+  },
 );
 
 export default function ExamplesScreen() {
