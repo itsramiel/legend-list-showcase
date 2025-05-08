@@ -11,6 +11,7 @@ import * as Crypto from "expo-crypto";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAvoidingView } from "react-native-keyboard-controller";
+import { useHeaderHeight } from "@react-navigation/elements";
 
 type TItem = {
   id: string;
@@ -34,12 +35,15 @@ export default function ChatUi() {
     ]);
   };
 
+  const headerHeight = useHeaderHeight();
+
   return (
     <View className="flex-1 bg-gray-200">
       <KeyboardAvoidingView
         className="flex-1"
         behavior="padding"
-        keyboardVerticalOffset={Platform.OS === "ios" ? 100.333 : 97.14}
+        // headerHeight is broken on Android https://github.com/software-mansion/react-native-screens/issues/2661
+        keyboardVerticalOffset={Platform.OS === "ios" ? headerHeight : 97.14}
       >
         <FlatList
           inverted
