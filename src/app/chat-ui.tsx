@@ -1,17 +1,10 @@
-import {
-  Button,
-  FlatList,
-  ListRenderItemInfo,
-  Platform,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { Button, Platform, Text, TextInput, View } from "react-native";
 import * as Crypto from "expo-crypto";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 import { useHeaderHeight } from "@react-navigation/elements";
+import { LegendList, LegendListRenderItemProps } from "@legendapp/list";
 
 type TItem = {
   id: string;
@@ -21,17 +14,17 @@ type TItem = {
 };
 
 export default function ChatUi() {
-  const [data, setData] = useState<Array<TItem>>(INITIAL_DATA.toReversed());
+  const [data, setData] = useState<Array<TItem>>(INITIAL_DATA);
 
   const onSend = (message: string) => {
     setData((prev) => [
+      ...prev,
       {
         id: Crypto.randomUUID(),
         datetime: new Date().toISOString(),
         message,
         sender: "me",
       },
-      ...prev,
     ]);
   };
 
@@ -45,12 +38,17 @@ export default function ChatUi() {
         // headerHeight is broken on Android https://github.com/software-mansion/react-native-screens/issues/2661
         keyboardVerticalOffset={Platform.OS === "ios" ? headerHeight : 97.14}
       >
-        <FlatList
-          inverted
+        <LegendList
+          alignItemsAtEnd
           className="flex-1"
-          contentContainerClassName="p-2 gap-3"
+          contentContainerStyle={{
+            padding: 8,
+          }}
           data={data}
           renderItem={renderItem}
+          initialScrollIndex={data.length - 1}
+          keyExtractor={(item) => item.id}
+          maintainScrollAtEnd
         />
         <Input onSend={onSend} />
       </KeyboardAvoidingView>
@@ -79,13 +77,13 @@ function Input({ onSend }: InputProps) {
   );
 }
 
-function renderItem(props: ListRenderItemInfo<TItem>) {
+function renderItem(props: LegendListRenderItemProps<TItem>) {
   return <ListItem {...props} />;
 }
 
-function ListItem({ item }: ListRenderItemInfo<TItem>) {
+function ListItem({ item }: LegendListRenderItemProps<TItem>) {
   return (
-    <View className={`${item.sender === "me" ? "items-end" : ""}`}>
+    <View className={`${item.sender === "me" ? "items-end" : ""} my-1`}>
       <View
         className={`w-3/4 rounded p-2 ${item.sender === "me" ? "bg-blue-200" : "bg-white"}`}
       >
@@ -144,6 +142,24 @@ const INITIAL_DATA = Array<TItem>(
     datetime: "2025-05-05T16:05:04.950Z",
     message: "Yeah, it throws an undefined is not a function error.",
     sender: "me",
+  },
+  {
+    id: Crypto.randomUUID(),
+    datetime: "2025-05-05T16:06:30.125Z",
+    message: "Sounds like a hook or prop issue. Did you update any libs?",
+    sender: "them",
+  },
+  {
+    id: Crypto.randomUUID(),
+    datetime: "2025-05-05T16:07:10.980Z",
+    message: "Yeah, I bumped react-navigation to v7 yesterday.",
+    sender: "me",
+  },
+  {
+    id: Crypto.randomUUID(),
+    datetime: "2025-05-05T16:08:40.407Z",
+    message: "That could be it. Check their changelog for breaking changes.",
+    sender: "them",
   },
   {
     id: Crypto.randomUUID(),
