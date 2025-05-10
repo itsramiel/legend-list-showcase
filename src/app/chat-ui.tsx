@@ -34,7 +34,8 @@ export default function ChatUi() {
     <View className="flex-1 bg-gray-200">
       <KeyboardAvoidingView
         className="flex-1"
-        behavior="padding"
+        behavior="position"
+        contentContainerStyle={{ flex: 1 }}
         // headerHeight is broken on Android https://github.com/software-mansion/react-native-screens/issues/2661
         keyboardVerticalOffset={Platform.OS === "ios" ? headerHeight : 97.14}
       >
