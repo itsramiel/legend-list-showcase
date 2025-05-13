@@ -20,6 +20,10 @@ const examples = Array<TITem>(
     title: "Chat UI",
     route: "/chat-ui",
   },
+  {
+    title: "Bidirectional Infinite List",
+    route: "/bidirectional-infinite-scroll",
+  },
 );
 
 export default function ExamplesScreen() {
