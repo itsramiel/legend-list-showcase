@@ -1,9 +1,10 @@
 import * as Crypto from "expo-crypto";
 import { LegendList, LegendListRenderItemProps } from "@legendapp/list";
 import {
+  Pressable,
+  Dimensions,
   Image,
   ImageSourcePropType,
-  Pressable,
   Text,
   View,
 } from "react-native";
@@ -105,8 +106,21 @@ const data: Array<TItem> = Array(1000)
     };
   });
 
+function keyExtractor(item: TItem) {
+  return item.id;
+}
+
 export default function PerformanceScreen() {
-  return <LegendList recycleItems data={data} renderItem={renderItem} />;
+  return (
+    <LegendList
+      keyExtractor={keyExtractor}
+      recycleItems
+      data={data}
+      renderItem={renderItem}
+      estimatedItemSize={200}
+      drawDistance={Dimensions.get("window").height}
+    />
+  );
 }
 
 function renderItem(props: LegendListRenderItemProps<TItem>) {
