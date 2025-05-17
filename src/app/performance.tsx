@@ -1,5 +1,9 @@
 import * as Crypto from "expo-crypto";
-import { LegendList, LegendListRenderItemProps } from "@legendapp/list";
+import {
+  LegendList,
+  LegendListRenderItemProps,
+  useRecyclingState,
+} from "@legendapp/list";
 import {
   Pressable,
   Dimensions,
@@ -128,7 +132,7 @@ function renderItem(props: LegendListRenderItemProps<TItem>) {
 }
 
 function ListItem({ item }: LegendListRenderItemProps<TItem>) {
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useRecyclingState(false);
   return (
     <View className="p-3 flex-row gap-2 bg-white border-b border-b-gray-200">
       <Image source={item.image} className="w-16 h-16 rounded-full" />
