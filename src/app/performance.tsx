@@ -4,10 +4,12 @@ import {
   Image,
   ImageSourcePropType,
   ListRenderItemInfo,
+  Pressable,
   Text,
   View,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useState } from "react";
 
 type TItem = {
   id: string;
@@ -113,6 +115,8 @@ function renderItem(props: ListRenderItemInfo<TItem>) {
 }
 
 function ListItem({ item }: ListRenderItemInfo<TItem>) {
+  const [isLiked, setIsLiked] = useState(false);
+
   return (
     <View className="p-3 flex-row gap-2 bg-white border-b border-b-gray-200">
       <Image source={item.image} className="w-16 h-16 rounded-full" />
@@ -133,10 +137,19 @@ function ListItem({ item }: ListRenderItemInfo<TItem>) {
             <Ionicons name="repeat-sharp" size={16} color={"#6b7280"} />
             <Text className="text-gray-500 text-lg">{item.shareCount}</Text>
           </View>
-          <View className="flex-row gap-1 items-center">
-            <Ionicons name="heart-outline" size={16} color={"#6b7280"} />
-            <Text className="text-gray-500 text-lg">{item.likesCount}</Text>
-          </View>
+          <Pressable
+            className="flex-row gap-1 items-center"
+            onPress={() => setIsLiked(!isLiked)}
+          >
+            <Ionicons
+              name={isLiked ? "heart" : "heart-outline"}
+              size={16}
+              color={"#6b7280"}
+            />
+            <Text className="text-gray-500 text-lg">
+              {item.likesCount + (isLiked ? 1 : 0)}
+            </Text>
+          </Pressable>
         </View>
       </View>
     </View>
