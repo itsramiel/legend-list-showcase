@@ -1,38 +1,20 @@
 import { useState } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  FlatListProps,
-  ListRenderItemInfo,
-  Text,
-  View,
-} from "react-native";
+import { LegendList, LegendListRenderItemProps } from "@legendapp/list";
+import { ActivityIndicator, FlatListProps, Text, View } from "react-native";
 
 const now = new Date();
 
-const INITIAL_DATA = Array.from({ length: 12 })
+const INITIAL_DATA = Array.from({ length: 24 })
   .fill(0)
   .map((_, i) => {
     return new Date(now.getFullYear(), i);
   });
 
-const ITEMS_GAP = 8;
-const ITEM_HEIGHT = 128;
-
 const LIST_PADDING = 8;
-
 export default function BidirectionalInfiniteScroll() {
   const [data, setData] = useState<Array<Date>>(INITIAL_DATA);
   const [isLoadingNextData, setIsLoadingNextData] = useState(false);
   const [isLoadingPrevData, setIsLoadingPrevData] = useState(false);
-
-  const getItemLayout: FlatListProps<Date>["getItemLayout"] = (_, index) => {
-    return {
-      index,
-      length: ITEM_HEIGHT,
-      offset: LIST_PADDING + index * ITEM_HEIGHT + index * ITEMS_GAP,
-    };
-  };
 
   const onEndReached: FlatListProps<Date>["onEndReached"] = () => {
     const lastDate = data[data.length - 1];
@@ -49,7 +31,7 @@ export default function BidirectionalInfiniteScroll() {
     }, 2000);
   };
 
-  const onRefresh = () => {
+  const onStartReached = () => {
     setIsLoadingPrevData(true);
     const firstDate = data[0];
     const prevData = Array.from({ length: 10 })
@@ -65,19 +47,25 @@ export default function BidirectionalInfiniteScroll() {
 
   return (
     <View className="flex-1 bg-white">
-      <FlatList
+      <LegendList
+        style={{ flex: 1 }}
         data={data}
-        refreshing={isLoadingPrevData}
-        onRefresh={onRefresh}
-        keyExtractor={(item) => item.toString()}
-        maintainVisibleContentPosition={{
-          minIndexForVisible: 0,
-        }}
+        keyExtractor={(item) => item.valueOf().toString()}
         renderItem={renderItem}
-        ItemSeparatorComponent={ItemSeperator}
+        maintainVisibleContentPosition
         contentContainerStyle={{ padding: LIST_PADDING }}
-        getItemLayout={getItemLayout}
+        ItemSeparatorComponent={ItemSeperator}
         onEndReached={onEndReached}
+        onStartReached={onStartReached}
+        initialScrollIndex={data.findIndex((item) => {
+          return (
+            item.getFullYear() === now.getFullYear() &&
+            item.getMonth() === now.getMonth()
+          );
+        })}
+        ListHeaderComponent={
+          <ActivityIndicator animating={isLoadingPrevData} />
+        }
         ListFooterComponent={
           <ActivityIndicator animating={isLoadingNextData} />
         }
@@ -90,7 +78,7 @@ function ItemSeperator() {
   return <View className="h-2 w-full" />;
 }
 
-function renderItem(props: ListRenderItemInfo<Date>) {
+function renderItem(props: LegendListRenderItemProps<Date>) {
   return <ListItem {...props} />;
 }
 
@@ -99,15 +87,14 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "short",
 });
 
-function ListItem({ item }: ListRenderItemInfo<Date>) {
+function ListItem({ item }: LegendListRenderItemProps<Date>) {
   return (
     <View
       style={{
         backgroundColor:
           MONTHLY_COLORS[item.getMonth() % MONTHLY_COLORS.length],
-        height: ITEM_HEIGHT,
       }}
-      className="items-center justify-center rounded"
+      className="items-center justify-center rounded p-16"
     >
       <Text className="font-semibold text-2xl">
         {dateFormatter.format(item)}
