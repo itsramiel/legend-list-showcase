@@ -1,6 +1,7 @@
 import {
   Button,
   FlatList,
+  Keyboard,
   ListRenderItemInfo,
   Platform,
   Text,
@@ -66,6 +67,11 @@ interface InputProps {
 function Input({ onSend }: InputProps) {
   const [message, setMessage] = useState("");
 
+  const onButtonPress = () => {
+    onSend(message);
+    setMessage("");
+  };
+
   return (
     <View className="flex-row border-t border-t-gray-300 py-2 px-3 gap-2 bg-white">
       <TextInput
@@ -74,7 +80,7 @@ function Input({ onSend }: InputProps) {
         className="flex-1 p-2 bg-gray-100 rounded"
         placeholder="Enter message"
       />
-      <Button title="Send" onPress={() => onSend(message)} />
+      <Button title="Send" onPress={onButtonPress} />
     </View>
   );
 }
