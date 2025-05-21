@@ -49,7 +49,7 @@ export default function BidirectionalInfiniteScroll() {
     }, 2000);
   };
 
-  const onRefresh = () => {
+  const onTopReached = () => {
     setIsLoadingPrevData(true);
     const firstDate = data[0];
     const prevData = Array.from({ length: 10 })
@@ -67,8 +67,6 @@ export default function BidirectionalInfiniteScroll() {
     <View className="flex-1 bg-white">
       <FlatList
         data={data}
-        refreshing={isLoadingPrevData}
-        onRefresh={onRefresh}
         keyExtractor={(item) => item.toString()}
         maintainVisibleContentPosition={{
           minIndexForVisible: 0,
