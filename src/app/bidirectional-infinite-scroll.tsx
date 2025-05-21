@@ -73,6 +73,12 @@ export default function BidirectionalInfiniteScroll() {
         maintainVisibleContentPosition={{
           minIndexForVisible: 0,
         }}
+        initialScrollIndex={INITIAL_DATA.findIndex((item) => {
+          return (
+            item.getFullYear() === now.getFullYear() &&
+            item.getMonth() === now.getMonth()
+          );
+        })}
         renderItem={renderItem}
         ItemSeparatorComponent={ItemSeperator}
         contentContainerStyle={{ padding: LIST_PADDING }}
